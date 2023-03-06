@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+
+
+	<selection name="type.selection">
+	<option value="Individual">Individual</option>
+	<option value="Company">Company</option>
+	</selection>
+
+	
+	
+	<grid model="com.axelor.gst.db.Party" title="Party"
+		name="grid-party">
+		<field name="reference" />
+		<field name="name" />
+		<field name="type" />
+		<field name="customer" />
+		<field name="supplier" />
+		<field name="gstIn" />
+		<field name="contact" widget="Editor" />
+		<field name="address" widget="Editor" />
+	</grid>
+
+	<form model="com.axelor.gst.db.Party" title="Party"
+		name="form-party">
+		<panel title="Overview">
+			<field name="reference" />
+			<field name="name" />
+			<field name="type" selection="type.selection" />
+			<field name="customer" />
+			<field name="supplier" />
+			<field name="gstIn" />
+		</panel>
+
+		<panel-related field="contact">
+			<field name="name" />
+			<field name="type" />
+			<field name="primaryEmail" />
+			<field name="secondaryEmail" />
+			<field name="primaryPhone" />
+			<field name="secondaryPhone" />
+		</panel-related>
+
+		<panel-related field="address" >
+			<field name="type" />
+			<field name="lineA" />
+			<field name="lineB" />
+			<field name="city" />
+			<field name="state" />
+			<field name="country" />
+			<field name="pinCode" />
+		</panel-related>
+
+	</form>
+
+<cards name="party-cards" title="Parties"
+		model="com.axelor.gst.db.Party" orderBy="name" width="270px" >
+		<field name="reference" />
+		<field name="name" />
+		<field name="type" />
+		<field name="gstIn" />
+		<field name="contact"/>
+		<template><![CDATA[
+		   <div class="span8 "> 
+		    <strong>{{reference}}</strong><br>
+		    <strong>{{name}}</strong><br>
+		    <strong>{{type}}</strong><br>
+		    <strong>{{gstIn}}</strong><br> 
+		  </div>
+  ]]></template>
+	</cards>
+
+
+
+
+</object-views>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

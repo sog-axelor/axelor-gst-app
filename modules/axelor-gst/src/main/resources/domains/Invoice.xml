@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models
+	xmlns="http://axelor.com/xml/ns/domain-models"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+
+	<module name="invoice" package="com.axelor.gst.db" />
+
+	<entity name="Invoice" lang="java">
+		<string name="status" title="Status" />
+		<many-to-one ref="com.axelor.gst.db.Company" name="company" />
+		<string name="reference" title="Reference" />
+		<datetime name="datetimeT" title="Date" />		
+	</entity>
+
+</domain-models>
+
+
+
+						

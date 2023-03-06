@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models
+	xmlns="http://axelor.com/xml/ns/domain-models"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+
+	<module name="bankAccount" package="com.axelor.gst.db" />
+
+	<entity name="BankAccount" lang="java">
+	
+	<string name="bank" title="Bank" required="true"/>
+	<string name="accountNo" title="Account No" required="true"/>
+	<string name="ifsc" title="IFSC NO" required="true"/>
+	<string name="type" title="Type" default="Current"/>
+	<string name="address" title="Address" multiline="true"/>
+	<many-to-one ref="Company" name="company" />
+	</entity>
+
+</domain-models>
