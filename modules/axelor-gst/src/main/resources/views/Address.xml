@@ -5,15 +5,6 @@
   http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
 
 
-	<selection name="type.selection.address">
-		<option value="default">Default</option>
-		<option value="invoice">Invoice</option>
-		<option value="shipping">Shipping</option>
-		<option value="other">Other</option>
-	</selection>
-
-
-
 	<grid model="com.axelor.gst.db.Address" title="Address"
 		name="grid-address">
 		<field name="type" />
@@ -28,7 +19,7 @@
 	<form model="com.axelor.gst.db.Address" title="Address"
 		name="form-address">
 		<panel title="Overview">
-			<field name="type" selection="type.selection.address"/>
+			<field name="type" selection="type.selection.address" />
 			<field name="lineA" />
 			<field name="lineB" />
 			<field name="pinCode" />
@@ -40,7 +31,7 @@
 			<field name="state" />
 			<field name="country" />
 		</panel>
-		
+
 	</form>
 
 

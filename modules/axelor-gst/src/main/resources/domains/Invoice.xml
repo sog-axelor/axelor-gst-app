@@ -8,10 +8,23 @@
 	<module name="invoice" package="com.axelor.gst.db" />
 
 	<entity name="Invoice" lang="java">
-		<string name="status" title="Status" />
-		<many-to-one ref="com.axelor.gst.db.Company" name="company" />
-		<string name="reference" title="Reference" />
-		<datetime name="datetimeT" title="Date" />		
+		<string name="status" title="Status" readonly="true" default="draft" selection="invoiceStatus.selection" />
+		<many-to-one ref="com.axelor.gst.db.Company" name="company" required="true" default="company"/>
+		<string name="reference" title="Reference"  readonly="true"/>
+		<datetime name="datetimeT" title="Date"/>	
+		<integer name="priority" title="Priority"  />
+		<many-to-one ref="com.axelor.gst.db.Party" name="party" required="true" title="Party"/>
+		<many-to-one ref="com.axelor.gst.db.Address" name="invoiceAddress" required="true" title="Invoice Address"/>
+		<many-to-one ref="com.axelor.gst.db.Contact" name="partyContact" title="Party Contact"/>
+		<many-to-one ref="com.axelor.gst.db.Address" name="shippingAddress" title="Shipping Address" />
+		<boolean name="useInvoiceAsPerShipping"  title="Use Invoice As Per Shipping" default="TRUE"/>
+		<decimal name="netAmount" precision="8" scale="2" readonly="true" title="Net Amount"/>
+		<decimal name="netIgst" precision="8" scale="2" readonly="true" title="Net Igst"/>
+		<decimal name="netCgst" precision="8" scale="2" readonly="true" title="Net Cgst"/>
+		<decimal name="netSgst" precision="8" scale="2" readonly="true" title="Net Sgst"/>
+		<decimal name="grossAmount" precision="8" scale="2" readonly="true" title="Gross Amount"/>
+		<one-to-many ref="com.axelor.gst.db.InvoiceLine" name="invoiceItems" mappedBy="invoice" title="Invoice Items"/>
+			
 	</entity>
 
 </domain-models>

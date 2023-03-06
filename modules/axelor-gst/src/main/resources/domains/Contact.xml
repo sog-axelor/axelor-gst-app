@@ -12,7 +12,7 @@
 		<string name="type" title="Type" required="true"/>		<!--  Selections -->
 		<string name="primaryEmail" title="Primary Email" />
 		<string name="secondaryEmail" title="Secondary Email" />
-		<string name="primaryPhone" title="Primary Phone" />
+		<string name="primaryPhone" title="Primary Phone" namecolumn="true"/>
 		<string name="secondaryPhone" title="Secondary Phone" />
 		<many-to-one ref="Party" name="party" />
 		<many-to-one ref="Company" name="company" />

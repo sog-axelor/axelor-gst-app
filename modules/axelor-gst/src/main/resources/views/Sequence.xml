@@ -3,10 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
-	
+
 
 	<grid model="com.axelor.gst.db.Sequence" title="Sequence"
-		name="grid-sequence" >
+		name="grid-sequence">
 		<field name="prefix" />
 		<field name="suffix" />
 		<field name="nextNumber" />
@@ -19,16 +19,21 @@
 		<panel title="overview">
 			<field name="prefix" />
 			<field name="suffix" />
-			<field name="nextNumber" />
+			<field name="nextNumber" onChange="act.sequence.generator" />
 			<field name="padding" />
 			<field name="model" />
 		</panel>
 	</form>
-	
-		<!-- Prefix + number of digits as per padding starting with 0 + Suffix			
-			"Example : ABC0000, ABC0001,ABC0003
-			(Here Prefix: = ABC, Suffix = null, Padding = 4,
-			Increment on each call to get this number)"-->
+
+	<!-- Prefix + number of digits as per padding starting with 0 + Suffix "Example 
+		: ABC0000, ABC0001,ABC0003 (Here Prefix: = ABC, Suffix = null, Padding = 
+		4, Increment on each call to get this number)" -->
+
+
+	<action-method name="act.sequence.generator">
+		<call class="com.axelor.gst.web.GstController"
+			method="sequence" />
+	</action-method>
 </object-views>
 
 

@@ -11,8 +11,10 @@
 		icon-background="green" order="-10" />
 
 	<menuitem name="company-root" title="Company"
-		icon="fa-compass" icon-background="green" order="-8" />
+		icon="fa-compass" icon-background="green" order="-7" />
 
+	<menuitem name="invoice-root" title="Invoice" icon="fa-eye"
+		icon-background="green" order="-8" />
 
 
 	<menuitem name="party-configuration" title="Configuration"
@@ -137,6 +139,76 @@
 		<view type="grid" name="grid-sequence" />
 		<view type="form" name="form-sequence" />
 	</action-view>
+
+	<!-- invoice-root -->
+	<menuitem name="createInvoice" parent="invoice-root"
+		title="Create Invoice" action="createInvoice.all" />
+
+	<action-view name="createInvoice.all"
+		title="Create Invoice" model="com.axelor.gst.db.Invoice">
+		<view type="form" name="form-invoice" />
+	</action-view>
+
+	<!-- Draft Invoice -->
+	<menuitem name="draftInvoice" parent="invoice-root"
+		title="Draft Invoice" action="draftInvoice.all" />
+
+	<action-view name="draftInvoice.all" title="Draft Invoice"
+		model="com.axelor.gst.db.Invoice">
+		<view type="grid" name="grid-invoice" />
+		<view type="form" name="form-invoice" />
+		<domain>self.status = :_status</domain>
+		<context name="_status" expr="draft" />
+	</action-view>
+
+	<!-- Validate Invoice -->
+	<menuitem name="validateInvoice" parent="invoice-root"
+		title="Validated Invoice" action="validatedInvoice.all" />
+
+	<action-view name="validatedInvoice.all"
+		title="Validate Invoice" model="com.axelor.gst.db.Invoice">
+		<view type="grid" name="grid-invoice" />
+		<view type="form" name="form-invoice" />
+		<domain>self.status = :_status</domain>
+		<context name="_status" expr="validate" />
+	</action-view>
+
+	<!-- paid Invoice -->
+	<menuitem name="paidInvoice" parent="invoice-root"
+		title="Paid Invoice" action="paidInvoice.all" />
+
+	<action-view name="paidInvoice.all" title="Paid Invoice"
+		model="com.axelor.gst.db.Invoice">
+		<view type="grid" name="grid-invoice" />
+		<view type="form" name="form-invoice" />
+		<domain>self.status = :_status</domain>
+		<context name="_status" expr="paid" />
+	</action-view>
+
+	<!-- Canceled Invoice -->
+	<menuitem name="cancelInvoice" parent="invoice-root"
+		title="Canceled Invoice" action="cancelInvoice.all" />
+
+	<action-view name="cancelInvoice.all"
+		title="Cancel Invoice" model="com.axelor.gst.db.Invoice">
+		<view type="grid" name="grid-invoice" />
+		<view type="form" name="form-invoice" />
+		<domain>self.status = :_status</domain>
+		<context name="_status" expr="cancel" />
+	</action-view>
+
+	<!-- All Invoice -->
+	<menuitem name="allInvoice" parent="invoice-root"
+		title="All Invoice" action="allInvoice.all" />
+
+	<action-view name="allInvoice.all" title="All Invoice"
+		model="com.axelor.gst.db.Invoice">
+		
+		<view type="grid" name="grid-invoice" />
+		<view type="kanban" name="invoice-kanban-view"/>
+		<view type="form" name="form-invoice" />
+	</action-view>
+
 
 
 

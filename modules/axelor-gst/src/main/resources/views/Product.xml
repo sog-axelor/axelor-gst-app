@@ -60,7 +60,8 @@
 	<action-record name="action-change-category" model="com.axelor.gst.db.Product">
 		<field name="gstRate" expr="eval: category.gstRate"/>
 	</action-record>
-
+	
+	
 
 </object-views>
 

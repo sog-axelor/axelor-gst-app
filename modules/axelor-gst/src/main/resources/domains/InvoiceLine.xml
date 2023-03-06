@@ -9,17 +9,17 @@
 
 	<entity name="InvoiceLine" lang="java">
 		<many-to-one ref="com.axelor.gst.db.Product" name="product" title="Product" />
-		<string name="hsbn" />
-		<string name="item" required="true"/>
-		<integer name="qty" />
-		<decimal name="price" precision="8" scale="2" default="1" />
-		<decimal name="netAmount" precision="8" scale="2"  required="true" />
-		<decimal name="gstRate" precision="8" scale="2" required="true"/>
-		<decimal name="igst" precision="8" scale="2" required="true"/>
-		<decimal name="sgst" precision="8" scale="2" required="true"/>
-		<decimal name="cgst" precision="8" scale="2" required="true"/>
-		<decimal name="grossAmount" precision="8" scale="2" required="true"/>
-	
+		<string name="hsbn" title="HSBN"/>
+		<string name="item" required="true" title="Item"/>
+		<integer name="qty" title="Quantity" />
+		<decimal name="price" precision="8" scale="2" default="1"  title="Price"/>
+		<decimal name="netAmount" precision="8" scale="2"  required="true" title="Net Amount" readonly="true"/>
+		<decimal name="gstRate" precision="8" scale="2" required="true" title="Gst Rate" readonly="true"/>
+		<decimal name="igst" precision="8" scale="2" required="true" title="Igst" readonly="true"/>
+		<decimal name="sgst" precision="8" scale="2" required="true" title="Sgst" readonly="true"/>
+		<decimal name="cgst" precision="8" scale="2" required="true" title="Cgst" readonly="true"/>
+		<decimal name="grossAmount" precision="8" scale="2" required="true" title="Gross Amount" readonly="true"/>
+		<many-to-one ref="com.axelor.gst.db.Invoice" name="invoice" title="Invoice"/>
 	</entity>
 
 </domain-models>
