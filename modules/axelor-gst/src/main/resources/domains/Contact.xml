@@ -9,13 +9,25 @@
 	
 	<entity name="Contact" lang="java">
 		<string name="name" title="Name" required="true" />
-		<string name="type" title="Type" required="true"/>		<!--  Selections -->
+		<string name="type" title="Type" required="true" selection="type.contact.selection"/>		<!--  Selections -->
 		<string name="primaryEmail" title="Primary Email" />
 		<string name="secondaryEmail" title="Secondary Email" />
-		<string name="primaryPhone" title="Primary Phone" namecolumn="true"/>
+		<string name="primaryPhone" title="Primary Phone"/>
 		<string name="secondaryPhone" title="Secondary Phone" />
 		<many-to-one ref="Party" name="party" />
 		<many-to-one ref="Company" name="company" />
+		
+		 <extra-code><![CDATA[
+
+      	//TYPE
+      	public static final String TYPE_PRIMARY = "Primary";
+      	public static final String TYPE_SECONDARY = "Secondary";
+       public static final String TYPE_OTHERS = "Others";
+      	
+
+    ]]></extra-code>
+		
 	</entity>
+
 
 </domain-models>

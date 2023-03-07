@@ -194,7 +194,7 @@
 		<view type="grid" name="grid-invoice" />
 		<view type="form" name="form-invoice" />
 		<domain>self.status = :_status</domain>
-		<context name="_status" expr="cancel" />
+		<context name="_status" expr="cancelled" />
 	</action-view>
 
 	<!-- All Invoice -->

@@ -24,29 +24,60 @@
 	<form model="com.axelor.gst.db.InvoiceLine" title="InvoiceLine"
 		name="form-invoiceLine">
 		<panel title="Overview">
-			<field name="invoice" />
-			<field name="product" onChange="action-change-hsbn"/>
-			<field name="hsbn" />
-			<field name="item" />
-			<field name="qty" />
-			<field name="price" />	
-			<field name="netAmount" />
+			<panel colSpan="12">
+				<field name="product" onChange="action-change-hsbn"
+					colSpan="4" />
+				<field name="hsbn" colSpan="4" />
+				<field name="item" colSpan="4" />
+			</panel>
+
+
+			<field name="qty" onChange="action-net-amount-record,action-gross-total-method,action-gross-total-igst-method" />
+			<field name="price" onChange="action-net-amount-record" />
+			<field name="netAmount" onChange="action-gross-total-method" />
 			<field name="gstRate" />
-			<field name="igst" />
+			<field name="igst"  />
 			<field name="sgst" />
 			<field name="cgst" />
-			<field name="grossAmount" />
+			<field name="grossAmount"   />
 		</panel>
 	</form>
-	
-	<action-record name="action-change-hsbn" model="com.axelor.gst.db.InvoiceLine">
-		<field name="hsbn" expr="eval: product.hsbn "/>
-		<field name="item" expr="eval: product.name"/>
-		<field name="price" expr="eval: product.salePrice"/>
-		<field name="gstRate" expr="eval: product.gstRate"/>
+
+	<action-record name="action-change-hsbn"
+		model="com.axelor.gst.db.InvoiceLine">
+		<field name="hsbn" expr="eval: product.hsbn " />
+		<field name="item" expr="eval: product.name" />
+		<field name="price" expr="eval: product.salePrice" />
+		<field name="gstRate" expr="eval: product.gstRate" />
 	</action-record>
+
+
+	<action-method name="action-get-net-amount">
+		<call class="com.axelor.gst.web.GstController"
+			method="calculateNetAmount" />
+	</action-method>
+
+	<action-record name="action-net-amount-record"
+		model="com.axelor.gst.db.InvoiceLine">
+		<field name="netAmount" expr="eval: qty*price" />
+		<field name="cgst" expr="eval: (qty*price*gstRate)/200"
+			/>
+		<field name="sgst" expr="eval: (qty*price*gstRate)/200"
+			 />
+
+	</action-record>
+
+	<action-method name="action-gross-total-method">
+		<call class="com.axelor.gst.web.GstController"
+			method="calculateGros" />
+	</action-method>
 	
-	
+	<action-method name="action-gross-total-igst-method">
+		<call class="com.axelor.gst.web.GstController"
+			method="igstValidation" />
+	</action-method>
+
+
 </object-views>
 
 

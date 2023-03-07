@@ -11,8 +11,8 @@
 		<string name="type" title="Type" required="true" />
 		<string name="lineA" title="Line1" required="true" namecolumn="true"/>
 		<string name="lineB" title="Line2"  />
-		<many-to-one ref="com.axelor.gst.db.City" name="city" required="true" title="City" />
-		<many-to-one ref="com.axelor.gst.db.State" name="state" title="State"/>
+		<many-to-one ref="com.axelor.gst.db.City" name="city" required="true" title="City"  />
+		<many-to-one ref="com.axelor.gst.db.State" name="state" title="State" />
 		<many-to-one ref="com.axelor.gst.db.Country" name="country" required="true" title="Country"/>
 		<string name="pinCode" title="Pin Code" />
 		<many-to-one ref="Party" name="party" />
