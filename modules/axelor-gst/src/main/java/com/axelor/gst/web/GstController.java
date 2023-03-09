@@ -52,7 +52,9 @@ public class GstController extends JpaSupport {
 		response.setValue("netAmount", invoice.getNetAmount());
 		response.setValue("netCgst", invoice.getNetCgst());
 		response.setValue("netSgst", invoice.getNetSgst());
-
+		response.setValue("netIgst", invoice.getNetIgst());
+		
+		System.err.println("netIgst Amount is : " +invoice.getNetIgst());
 		System.err.println("netsgst Amount is : " +invoice.getNetSgst());
 		System.err.println("netcGst Amount is : " + invoice.getNetCgst());
 		System.err.println("Gross Amount is : " + invoice.getGrossAmount());
@@ -69,6 +71,8 @@ public class GstController extends JpaSupport {
 		Context context = request.getContext();
 		InvoiceLine invoiceline = context.asType(InvoiceLine.class);
 		Invoice invoice =request.getContext().getParentContext().asType(Invoice.class);
+		
+		
 		if(invoice.getCompany() != null && invoice.getCompany().getAddress() != null
 				&& invoice.getCompany().getAddress().getState() != null) {
 			if (invoice.getCompany().getAddress().getState() != invoice.getInvoiceAddress().getState()) {

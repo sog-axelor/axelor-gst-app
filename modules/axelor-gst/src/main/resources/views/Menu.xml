@@ -4,17 +4,26 @@
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
 
+
+	<menuitem name="dashboard" title="Dashboard"
+		icon="fa-dashboard" icon-background="indigo" order="-11" />
+		
+		<menuitem name="dashboard-welcome-root" title="DashBoard" parent="dashboard" action="action.gst.root.dashboard"/>
+		<action-view name="action.gst.root.dashboard" title="DashBoard">
+			<view type="dashboard" name="welcome.dashboard"/>
+		</action-view>
+
 	<menuitem name="product-root" title="Product"
-		icon="fa-envelope" icon-background="green" order="-9" />
+		icon="fa-envelope" icon-background="purple" order="-9" />
 
 	<menuitem name="party-root" title="Party" icon="fa-book"
-		icon-background="green" order="-10" />
+		icon-background="orange" order="-10" />
 
 	<menuitem name="company-root" title="Company"
-		icon="fa-compass" icon-background="green" order="-7" />
+		icon="fa-compass" icon-background="teal" order="-7" />
 
 	<menuitem name="invoice-root" title="Invoice" icon="fa-eye"
-		icon-background="green" order="-8" />
+		icon-background="red" order="-8" />
 
 
 	<menuitem name="party-configuration" title="Configuration"

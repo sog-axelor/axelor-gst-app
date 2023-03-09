@@ -44,6 +44,7 @@ public class GstServiceImpl implements GstService {
 		BigDecimal netAmount = BigDecimal.ZERO;
 		BigDecimal cgst = BigDecimal.ZERO;
 		BigDecimal sgst = BigDecimal.ZERO;
+		BigDecimal igst = BigDecimal.ZERO;
 
 		if (ObjectUtils.isEmpty(invoice.getInvoiceItems())) {
 			return invoice;
@@ -53,6 +54,7 @@ public class GstServiceImpl implements GstService {
 		
 		cgst = invoice.getInvoiceItems().stream().map(InvoiceLine::getCgst).reduce(BigDecimal.ZERO,BigDecimal::add);
 		sgst = invoice.getInvoiceItems().stream().map(InvoiceLine::getSgst).reduce(BigDecimal.ZERO,BigDecimal::add);
+		igst = invoice.getInvoiceItems().stream().map(InvoiceLine::getIgst).reduce(BigDecimal.ZERO,BigDecimal::add);
 		
 		netAmount = invoice.getInvoiceItems().stream().map(InvoiceLine::getNetAmount).reduce(BigDecimal.ZERO,
 				BigDecimal::add);
@@ -63,6 +65,7 @@ public class GstServiceImpl implements GstService {
 		invoice.setNetAmount(netAmount);
 		invoice.setNetCgst(cgst);
 		invoice.setNetSgst(sgst);
+		invoice.setNetSgst(igst);
 		return invoice;
 	}
 

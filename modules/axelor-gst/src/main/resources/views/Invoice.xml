@@ -29,7 +29,9 @@
 
 	<form model="com.axelor.gst.db.Invoice" title="Invoice"
 		name="form-invoice" onNew="action-record-invoice"  >
-
+		 <toolbar>
+    		  <button name="btnPrint" title="Print" showTitle="false" showIf="id" onClick="action-report-invoice" icon="fa-print" />
+    	</toolbar>
 		<panel title="Overview">
 			<field name="status" widget="NavSelect" showTitle="false	" />
 			<field name="company" />
@@ -101,7 +103,8 @@
 		    </div>
     ]]></template>
 	</kanban>
-
+	
+	
 
 
 
@@ -133,6 +136,15 @@
 	<action-method name="action-invoice-gross-total-method">
 	  <call class="com.axelor.gst.web.GstController" method="grossAmount"/>
 	</action-method>
-
+	
+	
+	<action-report name="action-report-invoice"
+		design="invoice.rptdesign" output="invoice-${date}${time}"
+		format="pdf">
+		<param name="orderId" expr="eval: id"/>
+		<param name="grossAmount" expr="eval: grossAmount"/>
+	</action-report>
+	
+	
 
 </object-views>

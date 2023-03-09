@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+
+			<dashboard name="welcome.dashboard" title="Welcome!">
+				<dashlet action="chart:unpaid.invoice.per.customer" />
+			</dashboard>
+			<chart name="unpaid.invoice.per.customer" title="unpaid Invoice per customer">
+			<search-fields>
+			<field name="fromDate" type="date" title="From Date" />
+			<field name="toDate" type="date" title="To Date" />
+			</search-fields>
+			    <dataset type="jpql">
+			    <![CDATA[
+			    SELECT
+			    	COUNT(self.id) as invoice,
+			       p.name As party
+			         FROM INVOICE where self.statusSelect!='paid'
+			    ]]>
+			    </dataset>
+			    <category key="party"/>
+			    <series key="invoice" title="Unpaid Invoice" type="bar"/>
+			  </chart>
+						
+
+</object-views>
+
+
