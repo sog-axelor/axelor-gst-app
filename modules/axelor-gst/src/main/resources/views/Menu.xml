@@ -216,10 +216,12 @@
 		<view type="grid" name="grid-invoice" />
 		<view type="kanban" name="invoice-kanban-view"/>
 		<view type="form" name="form-invoice" />
+		<view type="calendar" name="invoice-timeline"/>
+		<view-param name="search-filters" value="filter-invoices"/>
+		
 	</action-view>
 
-
-
+	 
 
 
 </object-views>

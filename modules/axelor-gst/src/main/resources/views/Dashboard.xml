@@ -6,7 +6,22 @@
 
 			<dashboard name="welcome.dashboard" title="Welcome!">
 				<dashlet action="chart:unpaid.invoice.per.customer" />
+				<dashlet action="chart:paid.invoice.per.category.per.product" />
+				<dashlet action="chart:invoice.per.status.invoice.line" />
+				<dashlet action="chart:invoice.per.status.amount.bar" />
+				<dashlet action="chart:invoice.custom.pie.state" />
+				<dashlet colSpan="12" action="action-invoice-valid-paid"/>
 			</dashboard>
+			
+			
+			<action-view name="action-invoice-valid-paid" title="Validated and Not Paid" model="com.axelor.gst.db.Invoice">
+					<view type="grid"  />
+					<domain>self.status = :_statusValid AND self.status != :_statusNotPaid </domain>	
+					<context name="_statusValid" expr="validate" />
+					<context name="_statusNotPaid" expr="paid" />
+			</action-view>
+			
+			<!--unpaid invoice per customer  -->
 			<chart name="unpaid.invoice.per.customer" title="unpaid Invoice per customer">
 			<search-fields>
 			<field name="fromDate" type="date" title="From Date" />
@@ -16,15 +31,92 @@
 			    <![CDATA[
 			    SELECT
 			    	COUNT(self.id) as invoice,
-			       p.name As party
-			         FROM INVOICE where self.statusSelect!='paid'
+			        p.name As party
+			         FROM Invoice self
+			         	 LEFT JOIN Party as p ON (self.party=p.id AND p.customer=true)
+			          where self.status!='paid' 
+			       
+			          GROUP BY p.name
 			    ]]>
 			    </dataset>
 			    <category key="party"/>
 			    <series key="invoice" title="Unpaid Invoice" type="bar"/>
 			  </chart>
+			  
+			
+			  			<!--paid invoice per category per product  -->
+			<chart name="paid.invoice.per.category.per.product" title="paid invoice per category per product">
+			<search-fields>
+			<field name="fromDate" type="date" title="From Date" />
+			<field name="toDate" type="date" title="To Date" />
+			</search-fields>
+			    <dataset type="jpql">
+			    <![CDATA[
+			    SELECT
+			    	COUNT(self.id) as invoice,
+			        p.name As party
+			        pc.name As productCategory
+			        pr.name As product
+			         FROM Invoice self
+			         	 LEFT JOIN Party as p ON (self.party=p.id AND p.customer=true),
+			         	 LEFT JOIN productCategory as pc ON (self.productCategory=pc.id ),
+			         	 LEFT JOIN product as pr ON (self.product=pr.id )
+			          where self.status='paid' GROUP  pr.name
+			    ]]>
+			    </dataset>
+			    <category key="productCategory"/>
+			    <series key="invoice" title="paid Invoice per category per product" type="bar"/>
+			  </chart>
+			  
 						
-
+		<chart name="invoice.per.status.invoice.line" title="Invoice per status (Invoice count line)">
+		<dataset type="sql">
+		    <![CDATA[
+		    SELECT
+		        COUNT(self.id) AS invoice,
+		        self.status AS status
+		    FROM
+		        gst_invoice self
+		    GROUP BY
+		        status
+		    ]]>
+		    </dataset>
+		<category key="status" />
+		<series key="invoice" type="line" />
+	</chart>
+	
+		<chart name="invoice.per.status.amount.bar" title="Invoice per status (amount bar chart)">
+		<dataset type="sql">
+		    <![CDATA[
+		    SELECT
+		        SUM(self.gross_amount) as amount,
+		        self.status AS status
+		    FROM
+		        gst_invoice self
+		    GROUP BY
+		        status
+		    ]]>
+		    </dataset>
+		<category key="status" />
+		<series key="amount" type="bar" />
+	</chart>
+		
+		
+	<chart name="invoice.custom.pie.state" title="custom per state	">
+		<dataset type="sql">
+		    <![CDATA[
+		    SELECT
+		        SUM(self.gross_amount) as amount,
+		        self.status AS status
+		    FROM
+		        gst_invoice self
+		    GROUP BY
+		        status
+		    ]]>
+		    </dataset>
+		<category key="status" />
+		<series key="amount" type="pie" />
+	</chart>
 </object-views>
 
 

@@ -41,7 +41,7 @@
 			<field name="party" onChange="action-invoice-record-party-onchange" />
 			<field name="invoiceAddress" />
 			<field name="partyContact" />
-			<field name="shippingAddress" />
+			<field name="shippingAddress"  showIf="!useInvoiceAsPerShipping" />
 		</panel>
 		<panel-related field="invoiceItems"
 			title="Invoice Items" colSpan="12" onChange="action-invoice-gross-total-method" >
@@ -141,10 +141,15 @@
 	<action-report name="action-report-invoice"
 		design="invoice.rptdesign" output="invoice-${date}${time}"
 		format="pdf">
-		<param name="orderId" expr="eval: id"/>
-		<param name="grossAmount" expr="eval: grossAmount"/>
-	</action-report>
+		<param name="invoiceId" expr="eval: id"/>
+		 <param name="iId" if="__ids__" expr="eval:__ids__.join(',')" />
+		</action-report>
 	
+ 		<calendar name="invoice-timeline" title="Invoice Timeline" model="com.axelor.gst.db.Invoice" editable="false"
+		    eventStart="datetimeT"
+		    eventLength="8"
+		    colorBy="status">
+		    <field name="company" />
+		  </calendar> 
 	
-
 </object-views>

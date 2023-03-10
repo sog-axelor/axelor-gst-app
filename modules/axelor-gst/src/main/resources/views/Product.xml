@@ -6,6 +6,11 @@
 
 	<grid model="com.axelor.gst.db.Product" title="Products"
 		name="grid-product">
+		
+		<toolbar>
+			<button onClick="action-product-view-create-invoice" name="btnNewInvoice" title="Invoice" icon="fa-eye"/>
+			<button onClick="action-product-print-invoice-report" name="printInvoice" title="Invoice Report" icon="fa-print"/>
+		</toolbar>
 		<field name="name" />
 		<field name="code" />
 		<field name="hsbn" />
@@ -61,7 +66,17 @@
 		<field name="gstRate" expr="eval: category.gstRate"/>
 	</action-record>
 	
+	<action-view name="action-product-view-create-invoice" title="New Invoice" model="com.axelor.gst.db.Invoice">
+			<view type="form" name="form-invoice" />
+			  <context name="products" expr="eval:_ids" />
+	</action-view>
 	
+	<action-report name="action-product-print-invoice-report"
+    design="product.rptdesign"
+    output="invoice-${date}${time}"
+    format="pdf">
+  		 <param name="productIds" if="__ids__" expr="eval:__ids__.join(',')" />
+    </action-report>
 
 </object-views>
 
