@@ -6,14 +6,20 @@ import java.math.RoundingMode;
 import com.axelor.common.ObjectUtils;
 import com.axelor.gst.db.Invoice;
 import com.axelor.gst.db.InvoiceLine;
+import com.axelor.gst.db.Sequence;
 import com.axelor.gst.db.repo.ContactRepository;
 import com.axelor.gst.db.repo.InvoiceRepository;
+import com.axelor.gst.db.repo.SequenceRepository;
 import com.axelor.inject.Beans;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
+import com.google.inject.Inject;
+import com.google.inject.persist.Transactional;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class GstServiceImpl implements GstService {
-
+	@Inject SequenceRepository sequenceRepository;
 	@Override
 	public String hello() {
 		return "Hello World";
@@ -43,18 +49,18 @@ public class GstServiceImpl implements GstService {
 		BigDecimal grossAmount = BigDecimal.ZERO;
 		BigDecimal netAmount = BigDecimal.ZERO;
 		BigDecimal cgst = BigDecimal.ZERO;
-		BigDecimal sgst = BigDecimal.ZERO;
 		BigDecimal igst = BigDecimal.ZERO;
-
+		BigDecimal sgst1 = BigDecimal.ZERO;
 		if (ObjectUtils.isEmpty(invoice.getInvoiceItems())) {
 			return invoice;
 		}
 
+		sgst1 = invoice.getInvoiceItems().stream().map(InvoiceLine::getSgst).reduce(BigDecimal.ZERO,BigDecimal::add);
 //		Beans.get(ContactRepository.class).all().filter("self.type =?1","Primary").fetch()
 		
 		cgst = invoice.getInvoiceItems().stream().map(InvoiceLine::getCgst).reduce(BigDecimal.ZERO,BigDecimal::add);
-		sgst = invoice.getInvoiceItems().stream().map(InvoiceLine::getSgst).reduce(BigDecimal.ZERO,BigDecimal::add);
 		igst = invoice.getInvoiceItems().stream().map(InvoiceLine::getIgst).reduce(BigDecimal.ZERO,BigDecimal::add);
+		
 		
 		netAmount = invoice.getInvoiceItems().stream().map(InvoiceLine::getNetAmount).reduce(BigDecimal.ZERO,
 				BigDecimal::add);
@@ -64,8 +70,8 @@ public class GstServiceImpl implements GstService {
 		invoice.setGrossAmount(grossAmount);
 		invoice.setNetAmount(netAmount);
 		invoice.setNetCgst(cgst);
-		invoice.setNetSgst(sgst);
 		invoice.setNetSgst(igst);
+		invoice.setNetSgst(sgst1);
 		return invoice;
 	}
 
@@ -116,4 +122,7 @@ public class GstServiceImpl implements GstService {
 
 	}
 	
+	
+
+
 }

@@ -32,7 +32,7 @@ public class GstController extends JpaSupport {
 	}
 
 	public void sequence(ActionRequest request, ActionResponse response) {
-
+		
 		Context context = request.getContext();
 		Sequence sequence = context.asType(Sequence.class);
 		if (sequence.getId() != null) {
@@ -75,6 +75,7 @@ public class GstController extends JpaSupport {
 		
 		if(invoice.getCompany() != null && invoice.getCompany().getAddress() != null
 				&& invoice.getCompany().getAddress().getState() != null) {
+			
 			if (invoice.getCompany().getAddress().getState() != invoice.getInvoiceAddress().getState()) {
 				invoiceline = gsi.calculateIgst(invoiceline);
 				response.setValue("igst", invoiceline.getIgst());
@@ -85,6 +86,11 @@ public class GstController extends JpaSupport {
 				invoiceline = gsi.calculateCgst(invoiceline);
 				response.setValue("cgst", invoiceline.getCgst());
 				}
+			
+			
+			}else if (invoice.getCompany() == null && invoice.getCompany().getAddress() == null
+				&& invoice.getCompany().getAddress().getState() == null) {
+				response.setAlert("Invoice Address need to be fill");
 			}
 		invoiceline = gsi.calculateGrossAmount(invoiceline);
 		response.setValue("grossAmount", invoiceline.getGrossAmount());
@@ -93,5 +99,21 @@ public class GstController extends JpaSupport {
 		invoiceline = gsi.calculateNetAmount(invoiceline);
 		response.setValue("netAmount", invoiceline.getNetAmount());
 		}
+	
 
+		
+			public void getSequence(ActionRequest request, ActionResponse response) throws Exception {
+				Context context = request.getContext();
+		
+			}
 }
+
+
+
+
+
+
+
+
+
+

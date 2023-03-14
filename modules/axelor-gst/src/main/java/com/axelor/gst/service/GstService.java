@@ -1,13 +1,14 @@
 package com.axelor.gst.service;
 
-import com.axelor.gst.db.Invoice;
 import com.axelor.gst.db.InvoiceLine;
+import com.axelor.gst.db.Sequence;
 
 public interface GstService {
 		
 	String hello();
 	String getNext();
-	void SequenceGenerator(int paddingLength, String prefix, String suffix);
+	
+
 	
 	public InvoiceLine calculateNetAmount(InvoiceLine invoiceline);
 	

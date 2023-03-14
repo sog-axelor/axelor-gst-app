@@ -4,13 +4,10 @@
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
 
-
-
-
-	
-	
 	<grid model="com.axelor.gst.db.Party" title="Party"
 		name="grid-party">
+
+
 		<field name="reference" />
 		<field name="name" />
 		<field name="type" />
@@ -22,7 +19,7 @@
 	</grid>
 
 	<form model="com.axelor.gst.db.Party" title="Party"
-		name="form-party">
+		name="form-party" >		 <!-- onSave="com.axelor.gst.web.GstController:sequence" -->
 		<panel title="Overview">
 			<field name="reference" />
 			<field name="name" />
@@ -32,34 +29,48 @@
 			<field name="gstIn" />
 		</panel>
 
-		<panel-related field="contact">
-			<field name="name" />
-			<field name="type" />
-			<field name="primaryEmail" />
-			<field name="secondaryEmail" />
-			<field name="primaryPhone" />
-			<field name="secondaryPhone" />
-		</panel-related>
+		<panel-tabs>
+			<panel title="Contact">
+				<field name="contact" width="1400px">
+					<editor x-viewer="true">
+						<field name="name" />
+						<field name="type" />
+						<field name="primaryEmail" />
+						<field name="secondaryEmail" />
+						<field name="primaryPhone" />
+						<field name="secondaryPhone" />
+					</editor>
+				</field>
+			</panel>
+			
+			<panel title="Address">
+				<field name="address" width="1400px">
+					<editor x-viewer="true">
+						<field name="type" />
+				<field name="lineA" />
+				<field name="lineB" />
+				<field name="city" />
+				<field name="state" />
+				<field name="country" />
+				<field name="pinCode" />
+					</editor>
+				</field>
+			</panel>
+			
+		</panel-tabs>
 
-		<panel-related field="address" >
-			<field name="type" />
-			<field name="lineA" />
-			<field name="lineB" />
-			<field name="city" />
-			<field name="state" />
-			<field name="country" />
-			<field name="pinCode" />
-		</panel-related>
+
+
 
 	</form>
 
-<cards name="party-cards" title="Parties"
-		model="com.axelor.gst.db.Party" orderBy="name" width="270px" >
+	<cards name="party-cards" title="Parties"
+		model="com.axelor.gst.db.Party" orderBy="name" width="270px">
 		<field name="reference" />
 		<field name="name" />
 		<field name="type" />
 		<field name="gstIn" />
-		<field name="contact"/>
+		<field name="contact" />
 		<template><![CDATA[
 		   <div class="span8 "> 
 		    <strong>{{reference}}</strong><br>

@@ -7,9 +7,9 @@
 <module name="company" package="com.axelor.gst.db" />
 
 	<entity name="Company" lang="java">
-		<string name="name" title="Name" required="true"/>
-		<many-to-one ref="com.axelor.meta.db.MetaFile" name="logo" />
-		<string name="gstin" title="GSTIN" min="15" max="15"/>
+		<string name="name" title="Name" required="true"  />
+		<many-to-one ref="com.axelor.meta.db.MetaFile" name="logo"  />
+		<string name="gstin" title="GSTIN" min="15" max="15"/>		
 		<one-to-many ref="com.axelor.gst.db.Contact" name="contact" mappedBy="company"/>
 		<one-to-many ref="com.axelor.gst.db.BankAccount" name="bankDetails" mappedBy="company"/>
 		<many-to-one ref="com.axelor.gst.db.Address" name="address" />	

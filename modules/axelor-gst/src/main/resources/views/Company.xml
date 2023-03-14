@@ -19,29 +19,35 @@
 
 		<panel title="Overview">
 			<field name="name" />
-			<field name="logo" widget="Image"/>
+			<field name="logo" widget="Image" />
 			<field name="gstin" widget="Editor" />
 			<field name="address" />
+
 		</panel>
 
-		<panel-related field="contact">
-			<field name="name" />
-			<field name="type" />
-			<field name="primaryEmail" />
-			<field name="secondaryEmail" />
-			<field name="primaryPhone" />
-			<field name="secondaryPhone" />
-		</panel-related>
 
-		<panel-related field="bankDetails">
-			<field name="bank" />
-			<field name="accountNo" />
-			<field name="ifsc" />
-			<field name="type" selection="type.selection.bankAccount" />
-			<field name="address" />
-			<field name="company" />
+		<panel-tabs>
 		
-		</panel-related>
+		
+		
+			<panel-related field="bankDetails" editable="true"
+				form-view="form-BankAccount" grid-view="grid-BankAccount" />
+				
+			<panel title="Contact" >
+				<field name="contact" showTitle="false" width="1400px" >
+					<editor x-viewer="true" >
+						<field name="name" />
+						<field name="type" />
+						<field name="primaryEmail" />
+						<field name="secondaryEmail" />
+						<field name="primaryPhone" />
+						<field name="secondaryPhone" />
+					</editor>
+				</field>
+			</panel>
+
+</panel-tabs>
+
 
 
 

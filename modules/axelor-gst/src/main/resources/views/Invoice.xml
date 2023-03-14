@@ -28,23 +28,28 @@
 	</grid>
 
 	<form model="com.axelor.gst.db.Invoice" title="Invoice"
-		name="form-invoice" onNew="action-record-invoice"  >
-		 <toolbar>
-    		  <button name="btnPrint" title="Print" showTitle="false" showIf="id" onClick="action-report-invoice" icon="fa-print" />
-    	</toolbar>
+		name="form-invoice"
+		onNew="action-record-invoice,action-default-company">
+		<toolbar>
+			<button name="btnPrint" title="Print" showTitle="false"
+				showIf="id" onClick="action-report-invoice" icon="fa-print" />
+		</toolbar>
 		<panel title="Overview">
 			<field name="status" widget="NavSelect" showTitle="false	" />
-			<field name="company" />
+			<field name="company" form-view="form-company"
+				grid-view="grid-company" />
 			<field name="reference" />
 			<field name="datetimeT" />
 			<field name="priority" />
-			<field name="party" onChange="action-invoice-record-party-onchange" />
+			<field name="party"
+				onChange="action-invoice-record-party-onchange" />
 			<field name="invoiceAddress" />
 			<field name="partyContact" />
-			<field name="shippingAddress"  showIf="!useInvoiceAsPerShipping" />
+			<field name="shippingAddress" showIf="!useInvoiceAsPerShipping" />
 		</panel>
 		<panel-related field="invoiceItems"
-			title="Invoice Items" colSpan="12" onChange="action-invoice-gross-total-method" >
+			title="Invoice Items" colSpan="12"
+			onChange="action-invoice-gross-total-method">
 			<field name="product" />
 			<field name="hsbn" />
 			<field name="item" />
@@ -58,25 +63,25 @@
 			<field name="grossAmount" />
 		</panel-related>
 
-		<panel title="Summary" >
+		<panel title="Summary">
 			<field name="useInvoiceAsPerShipping" />
 			<field name="netAmount" />
 			<field name="netIgst" />
 			<field name="netCgst" />
 			<field name="netSgst" />
-			<field name="grossAmount"  />
+			<field name="grossAmount" />
 		</panel>
 
 
 		<panel name="statusPanel" sidebar="true">
 			<button onClick="action-btn-draft-status" name="btnDraft"
-				title="Draft" hideIf="status == 'draft'"/>
+				title="Draft" hideIf="status == 'draft'" />
 			<button onClick="action-btn-validate-status"
 				name="btnValidate" title="Validate" hideIf="status == 'validate'" />
 			<button onClick="action-btn-paid-status" name="btnPaid"
 				title="Paid" hideIf="status == 'paid'" />
 			<button onClick="action-btn-cancel-status" name="btnCancel"
-				title="Cancel" hideIf="status == 'cancelled'"/>
+				title="Cancel" hideIf="status == 'cancelled'" />
 		</panel>
 	</form>
 
@@ -103,9 +108,6 @@
 		    </div>
     ]]></template>
 	</kanban>
-	
-	
-
 
 
 	<action-attrs name="action-btn-draft-status">
@@ -129,27 +131,47 @@
 		<field name="datetimeT" expr="eval: __datetime__" />
 	</action-record>
 
-	<action-record name="action-invoice-record-party-onchange" model="com.axelor.gst.db.Invoice">
-		<field name="partyContact" expr="eval: __repo__(Contact).all().filter('self.type=?1 AND self.party.id = ?2',__repo__(Contact).TYPE_PRIMARY,party).fetchOne()"/>
+	<action-record
+		name="action-invoice-record-party-onchange"
+		model="com.axelor.gst.db.Invoice">
+		<field name="partyContact"
+			expr="eval: __repo__(Contact).all().filter('self.type=?1 AND self.party.id = ?2',__repo__(Contact).TYPE_PRIMARY,party).fetchOne()" />
 	</action-record>
-	
+
 	<action-method name="action-invoice-gross-total-method">
-	  <call class="com.axelor.gst.web.GstController" method="grossAmount"/>
+		<call class="com.axelor.gst.web.GstController"
+			method="grossAmount" />
 	</action-method>
-	
-	
+
+
+
+	<action-record name="action-default-company"
+		model="com.axelor.gst.db.Invoice">
+		<field name="company" expr="action:default-company-record"
+			if="!(__ref__ instanceof Company)" />
+		<field name="company" expr="eval: __ref__"
+			if="__ref__ instanceof Company" />
+	</action-record>
+
+	<action-record name="default-company-record"
+		model="com.axelor.gst.db.Company" search="self.name = 'Bishnoi Foods'">
+		<field name="name" expr="Bishnoi Foods" />
+		<field name="gstin" expr="123456789123456" />
+	</action-record>
+
+
 	<action-report name="action-report-invoice"
 		design="invoice.rptdesign" output="invoice-${date}${time}"
 		format="pdf">
-		<param name="invoiceId" expr="eval: id"/>
-		 <param name="iId" if="__ids__" expr="eval:__ids__.join(',')" />
-		</action-report>
-	
- 		<calendar name="invoice-timeline" title="Invoice Timeline" model="com.axelor.gst.db.Invoice" editable="false"
-		    eventStart="datetimeT"
-		    eventLength="8"
-		    colorBy="status">
-		    <field name="company" />
-		  </calendar> 
-	
+		<param name="invoiceId" expr="eval: id" />
+		<param name="iId" if="__ids__" expr="eval:__ids__.join(',')" />
+	</action-report>
+
+
+	<calendar name="invoice-timeline" title="Invoice Timeline"
+		model="com.axelor.gst.db.Invoice" editable="false"
+		eventStart="datetimeT" eventLength="8" colorBy="status">
+		<field name="company" />
+	</calendar>
+
 </object-views>

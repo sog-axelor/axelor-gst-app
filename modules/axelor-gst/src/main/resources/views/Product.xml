@@ -5,7 +5,7 @@
   http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
 
 	<grid model="com.axelor.gst.db.Product" title="Products"
-		name="grid-product">
+		name="grid-product"  >
 		
 		<toolbar>
 			<button onClick="action-product-view-create-invoice" name="btnNewInvoice" title="Invoice" icon="fa-eye"/>
@@ -23,7 +23,7 @@
 	</grid>
 
 	<form model="com.axelor.gst.db.Product" title="Product"
-		name="form-product">
+		name="form-product"  >		<!-- canEdit="false" -->
 		<panel title="Product">
 			<field name="name" />
 			<field name="code" />
@@ -67,8 +67,8 @@
 	</action-record>
 	
 	<action-view name="action-product-view-create-invoice" title="New Invoice" model="com.axelor.gst.db.Invoice">
-			<view type="form" name="form-invoice" />
-			  <context name="products" expr="eval:_ids" />
+				<view type="form" name="form-invoice" />
+			  <context name="	" expr="eval:_ids" />
 	</action-view>
 	
 	<action-report name="action-product-print-invoice-report"

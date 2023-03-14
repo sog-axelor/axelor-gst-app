@@ -51,20 +51,25 @@
 			<field name="toDate" type="date" title="To Date" />
 			</search-fields>
 			    <dataset type="jpql">
-			    <![CDATA[
-			    SELECT
-			    	COUNT(self.id) as invoice,
-			        p.name As party
-			        pc.name As productCategory
-			        pr.name As product
-			         FROM Invoice self
-			         	 LEFT JOIN Party as p ON (self.party=p.id AND p.customer=true),
-			         	 LEFT JOIN productCategory as pc ON (self.productCategory=pc.id ),
-			         	 LEFT JOIN product as pr ON (self.product=pr.id )
-			          where self.status='paid' GROUP  pr.name
-			    ]]>
+				<![CDATA[	  
+		    SELECT
+ 				COUNT(self.id) as invoice,
+ 				category.name	as cat,
+ 				   pro.name	
+		    FROM
+		    	Invoice self
+		    LEFT JOIN InvoiceLine as line ON line.invoice=self.id
+		    LEFT JOIN Product as pro ON line.product=pro.id
+		    LEFT JOIN ProductCategory as category ON pro.category=category.id
+		    WHERE	
+		    	self.status = 'paid'
+		    	AND self.datetimeT BETWEEN :fromDate AND  :toDate
+		    GROUP BY
+		    	category.name,pro.name	  
+		    ]]>
+		
 			    </dataset>
-			    <category key="productCategory"/>
+			    <category key="cat"/>
 			    <series key="invoice" title="paid Invoice per category per product" type="bar"/>
 			  </chart>
 			  

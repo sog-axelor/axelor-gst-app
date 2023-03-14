@@ -56,10 +56,11 @@
 	<action-view name="party.all" title="Party"
 		model="com.axelor.gst.db.Party">
 		<view type="cards" name="party-cards" />
-		<view type="grid" name="grid-party" />
+		<view type="grid" name="grid-party" /> 
 		<view type="form" name="form-party" />
+		<!-- <view-param name="popup" value="true"/> -->
 	</action-view>
-
+	
 	<!-- for contact -->
 
 	<menuitem name="contact" parent="party-root" title="Contact"
