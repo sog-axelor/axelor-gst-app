@@ -12,6 +12,7 @@ import com.axelor.gst.db.Contact;
 import com.axelor.gst.db.Invoice;
 import com.axelor.gst.db.InvoiceLine;
 import com.axelor.gst.db.Party;
+import com.axelor.gst.db.Product;
 import com.axelor.gst.db.Sequence;
 import com.axelor.gst.db.repo.SequenceRepository;
 import com.axelor.gst.service.GstService;
@@ -100,12 +101,19 @@ public class GstController extends JpaSupport {
 		response.setValue("netAmount", invoiceline.getNetAmount());
 		}
 	
-
+	public void multiProductSelect(ActionRequest request, ActionResponse response) {
+		Context context = request.getContext();
+		Product product = context.asType(Product.class);
+		if(product.getId()==null) {
+			 System.err.println("Select product first");
+			 response.setAlert("Select product first");
+		}
 		
-			public void getSequence(ActionRequest request, ActionResponse response) throws Exception {
-				Context context = request.getContext();
-		
-			}
+		if(product.getId()!=null) {
+			System.err.println("Selected product id is" + product.getId());
+			 response.setAlert("Selected product id is" + product.getId());
+		}
+	}
 }
 
 

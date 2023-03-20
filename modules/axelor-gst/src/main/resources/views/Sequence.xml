@@ -17,10 +17,10 @@
 	<form model="com.axelor.gst.db.Sequence" title="Sequence"
 		name="form-sequence">
 		<panel title="overview">
-			<field name="prefix" onChange="act.sequence.generator"/>
-			<field name="suffix" onChange="act.sequence.generator"/>
+			<field name="prefix" onChange="action-sequence-generator-method"/>
+			<field name="suffix" onChange="action-sequence-generator-method"/>
 			<field name="nextNumber"  />
-			<field name="padding" onChange="act.sequence.generator"/>
+			<field name="padding" onChange="action-sequence-generator-method"/>
 			<field name="model" />
 		</panel>
 	</form>
@@ -28,9 +28,9 @@
 	
 
 
-	<action-method name="act.sequence.generator">
-		<call class="com.axelor.gst.web.GstController"
-			method="sequence" />
+	<action-method name="action-sequence-generator-method">
+		<call class="com.axelor.gst.web.SequenceController"
+			method="setNextNumber" />
 	</action-method>
 </object-views>
 

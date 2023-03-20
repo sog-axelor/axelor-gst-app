@@ -5,11 +5,14 @@
   http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
 
 	<grid model="com.axelor.gst.db.Product" title="Products"
-		name="grid-product"  >
-		
+		name="grid-product">
+
 		<toolbar>
-			<button onClick="action-product-view-create-invoice" name="btnNewInvoice" title="Invoice" icon="fa-eye"/>
-			<button onClick="action-product-print-invoice-report" name="printInvoice" title="Invoice Report" icon="fa-print"/>
+			<button
+				onClick="action-product-view-create-invoice"
+				name="btnNewInvoice" title="Invoice" icon="fa-eye" />
+			<button onClick="action-product-print-invoice-report"
+				name="printInvoice" title="Invoice Report" icon="fa-print" />
 		</toolbar>
 		<field name="name" />
 		<field name="code" />
@@ -23,12 +26,12 @@
 	</grid>
 
 	<form model="com.axelor.gst.db.Product" title="Product"
-		name="form-product"  >		<!-- canEdit="false" -->
+		name="form-product">		<!-- canEdit="false" -->
 		<panel title="Product">
 			<field name="name" />
 			<field name="code" />
 			<field name="hsbn" />
-			<field name="category"  onChange="action-change-category"/>
+			<field name="category" onChange="action-change-category" />
 		</panel>
 
 		<panel title="Description">
@@ -62,21 +65,30 @@
   ]]></template>
 	</cards>
 
-	<action-record name="action-change-category" model="com.axelor.gst.db.Product">
-		<field name="gstRate" expr="eval: category.gstRate"/>
+	<action-record name="action-change-category"
+		model="com.axelor.gst.db.Product">
+		<field name="gstRate" expr="eval: category.gstRate" />
 	</action-record>
-	
+
 	<action-view name="action-product-view-create-invoice" title="New Invoice" model="com.axelor.gst.db.Invoice">
-				<view type="form" name="form-invoice" />
-			  <context name="	" expr="eval:_ids" />
-	</action-view>
-	
+	<view type="form" name="form-invoice" />	
+    <context name="_ids" expr="eval: _ids"/>	
+    </action-view>
+    
+    <action-validate
+		name="action-validate-select-object-message">
+		<error message="Please select multiple records"
+			if="_ids == null ||  _ids.size() &lt; 2" />
+	</action-validate>
+    
+
 	<action-report name="action-product-print-invoice-report"
-    design="product.rptdesign"
-    output="invoice-${date}${time}"
-    format="pdf">
-  		 <param name="productIds" if="__ids__" expr="eval:__ids__.join(',')" />
-    </action-report>
+		design="product.rptdesign" output="invoice-${date}${time}"
+		format="pdf">
+		<param name="productIds" if="__ids__"
+			expr="eval:__ids__.join(',')" />
+	</action-report>
+
 
 </object-views>
 

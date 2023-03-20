@@ -29,7 +29,7 @@
 
 	<form model="com.axelor.gst.db.Invoice" title="Invoice"
 		name="form-invoice"
-		onNew="action-record-invoice,action-default-company">
+		onNew="action-record-invoice,action-default-company" onSave="action-get-sequence-on-refernce" >
 		<toolbar>
 			<button name="btnPrint" title="Print" showTitle="false"
 				showIf="id" onClick="action-report-invoice" icon="fa-print" />
@@ -74,13 +74,13 @@
 
 
 		<panel name="statusPanel" sidebar="true">
-			<button onClick="action-btn-draft-status" name="btnDraft"
+			<button onClick="save,action-btn-draft-status" name="btnDraft"
 				title="Draft" hideIf="status == 'draft'" />
-			<button onClick="action-btn-validate-status"
+			<button onClick="save,action-btn-validate-status"
 				name="btnValidate" title="Validate" hideIf="status == 'validate'" />
-			<button onClick="action-btn-paid-status" name="btnPaid"
+			<button onClick="save,action-btn-paid-status" name="btnPaid"
 				title="Paid" hideIf="status == 'paid'" />
-			<button onClick="action-btn-cancel-status" name="btnCancel"
+			<button onClick="save,action-btn-cancel-status" name="btnCancel"
 				title="Cancel" hideIf="status == 'cancelled'" />
 		</panel>
 	</form>
@@ -161,7 +161,7 @@
 
 
 	<action-report name="action-report-invoice"
-		design="invoice.rptdesign" output="invoice-${date}${time}"
+		design="InvoiceReport.rptdesign" output="invoice-${date}${time}"
 		format="pdf">
 		<param name="invoiceId" expr="eval: id" />
 		<param name="iId" if="__ids__" expr="eval:__ids__.join(',')" />
@@ -173,5 +173,9 @@
 		eventStart="datetimeT" eventLength="8" colorBy="status">
 		<field name="company" />
 	</calendar>
+	
+	<action-method name="action-get-sequence-on-refernce">
+  		<call class="com.axelor.gst.web.SequenceController" method="getSequence"/>
+	</action-method>
 
 </object-views>

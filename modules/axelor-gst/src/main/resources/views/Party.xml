@@ -19,7 +19,7 @@
 	</grid>
 
 	<form model="com.axelor.gst.db.Party" title="Party"
-		name="form-party" >		 <!-- onSave="com.axelor.gst.web.GstController:sequence" -->
+		name="form-party" onSave="com.axelor.gst.web.SequenceController:getSequence">		 <!-- onSave="com.axelor.gst.web.GstController:sequence" -->
 		<panel title="Overview">
 			<field name="reference" />
 			<field name="name" />
@@ -31,7 +31,7 @@
 
 		<panel-tabs>
 			<panel title="Contact">
-				<field name="contact" width="1400px">
+				<field name="contact" width="750px">
 					<editor x-viewer="true">
 						<field name="name" />
 						<field name="type" />
@@ -42,21 +42,21 @@
 					</editor>
 				</field>
 			</panel>
-			
+
 			<panel title="Address">
-				<field name="address" width="1400px">
+				<field name="address" width="750px">
 					<editor x-viewer="true">
 						<field name="type" />
-				<field name="lineA" />
-				<field name="lineB" />
-				<field name="city" />
-				<field name="state" />
-				<field name="country" />
-				<field name="pinCode" />
+						<field name="lineA" />
+						<field name="lineB" />
+						<field name="city" />
+						<field name="state" />
+						<field name="country" />
+						<field name="pinCode" />
 					</editor>
 				</field>
 			</panel>
-			
+
 		</panel-tabs>
 
 
