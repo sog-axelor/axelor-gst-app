@@ -27,7 +27,7 @@ public class GstController extends JpaSupport {
 	@Inject
 	private GstServiceImpl gsi;
 
-	public void say(ActionRequest request, ActionRequest response) {
+	public void say(ActionRequest request, ActionResponse response) {
 
 		System.err.println(gsi.hello());
 	}
@@ -70,6 +70,7 @@ public class GstController extends JpaSupport {
 	
 	public void igstValidation(ActionRequest request, ActionResponse response) {
 		Context context = request.getContext();
+	
 		InvoiceLine invoiceline = context.asType(InvoiceLine.class);
 		Invoice invoice =request.getContext().getParentContext().asType(Invoice.class);
 		
@@ -101,23 +102,15 @@ public class GstController extends JpaSupport {
 		response.setValue("netAmount", invoiceline.getNetAmount());
 		}
 	
-	public void multiProductSelect(ActionRequest request, ActionResponse response) {
-		Context context = request.getContext();
-		Product product = context.asType(Product.class);
-		if(product.getId()==null) {
-			 System.err.println("Select product first");
-			 response.setAlert("Select product first");
-		}
 		
-		if(product.getId()!=null) {
-			System.err.println("Selected product id is" + product.getId());
-			 response.setAlert("Selected product id is" + product.getId());
-		}
+	
+	
+	
+	
 	}
-}
 
 
-
+	
 
 
 

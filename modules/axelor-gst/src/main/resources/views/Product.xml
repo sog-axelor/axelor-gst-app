@@ -8,9 +8,8 @@
 		name="grid-product">
 
 		<toolbar>
-			<button
-				onClick="action-product-view-create-invoice"
-				name="btnNewInvoice" title="Invoice" icon="fa-eye" />
+			<button onClick="act.hello" name="btnNewInvoice"
+				title="Invoice" icon="fa-eye" />
 			<button onClick="action-product-print-invoice-report"
 				name="printInvoice" title="Invoice Report" icon="fa-print" />
 		</toolbar>
@@ -31,8 +30,11 @@
 			<field name="name" />
 			<field name="code" />
 			<field name="hsbn" />
-			<field name="category" onChange="action-change-category" />
+			<field name="category" onChange="action-change-category"
+					 />		<!-- self.name = 'GST12' && self.code = 'GST18' -->
 		</panel>
+
+
 
 		<panel title="Description">
 			<field name="salePrice" />
@@ -61,7 +63,7 @@
 		    <strong>{{code}}</strong><br>
 		    <strong>{{hsbn}}</strong><br>
 		    <strong>{{category.name}}</strong><br> 
-		  </div>
+		  </div>party
   ]]></template>
 	</cards>
 
@@ -70,17 +72,22 @@
 		<field name="gstRate" expr="eval: category.gstRate" />
 	</action-record>
 
-	<action-view name="action-product-view-create-invoice" title="New Invoice" model="com.axelor.gst.db.Invoice">
-	<view type="form" name="form-invoice" />	
-    <context name="_ids" expr="eval: _ids"/>	
-    </action-view>
-    
-    <action-validate
+	<action-view name="action-product-view-create-invoice"
+		title="New Invoice" model="com.axelor.gst.db.Invoice">
+		<view type="form" name="form-invoice" />
+	</action-view>
+	
+	<action-method name="act.hello">
+		<call class="com.axelor.gst.web.ProductController"
+			method="ProductSelect"/>
+	</action-method>
+	
+
+	<action-validate
 		name="action-validate-select-object-message">
 		<error message="Please select multiple records"
 			if="_ids == null ||  _ids.size() &lt; 2" />
 	</action-validate>
-    
 
 	<action-report name="action-product-print-invoice-report"
 		design="product.rptdesign" output="invoice-${date}${time}"
@@ -89,6 +96,8 @@
 			expr="eval:__ids__.join(',')" />
 	</action-report>
 
+
+	
 
 </object-views>
 

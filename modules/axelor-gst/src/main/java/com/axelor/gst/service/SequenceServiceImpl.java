@@ -44,9 +44,9 @@ public class SequenceServiceImpl implements SequenceService {
 			throw new Exception("NO sequence is defined");
 		}
 		
-		if(sequence!=null) {
+		if(sequence != null) {
 			String padding = "";
-			if(sequence.getSuffix()!=null)
+			if(sequence.getSuffix() != null)
 				l = sequence.getNextNumber().length() - sequence.getSuffix().length();
 			else
 				l = sequence.getNextNumber().length();
@@ -62,10 +62,11 @@ public class SequenceServiceImpl implements SequenceService {
 			String padNext = StringUtils.leftPad(nextVal.toString(),sequence.getPadding(),"0");
 			nextSequence = calculateNextSequence(sequence, padNext);
 			
-			if(padNext.length() != sequence.getPadding())
+			if(padNext.length() != sequence.getPadding()) {
 				sequence.setPadding(padNext.length());
 				sequence.setNextNumber(nextSequence);
 				Beans.get(SequenceRepository.class).save(sequence);
+			}
 		}
 		System.err.println("Next Sequence is  " +nextSequence  );
 		return nextSequence;

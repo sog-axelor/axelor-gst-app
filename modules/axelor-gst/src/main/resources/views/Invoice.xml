@@ -46,22 +46,11 @@
 			<field name="invoiceAddress" />
 			<field name="partyContact" />
 			<field name="shippingAddress" showIf="!useInvoiceAsPerShipping" />
+			<field name="$product_id"/>
 		</panel>
 		<panel-related field="invoiceItems"
 			title="Invoice Items" colSpan="12"
-			onChange="action-invoice-gross-total-method">
-			<field name="product" />
-			<field name="hsbn" />
-			<field name="item" />
-			<field name="qty" />
-			<field name="price" />
-			<field name="netAmount" />
-			<field name="gstRate" />
-			<field name="igst" />
-			<field name="sgst" />
-			<field name="cgst" />
-			<field name="grossAmount" />
-		</panel-related>
+			onChange="action-invoice-gross-total-method"/>
 
 		<panel title="Summary">
 			<field name="useInvoiceAsPerShipping" />
@@ -129,6 +118,8 @@
 	<action-record name="action-record-invoice"
 		model="com.axelor.gst.db.Invoice">
 		<field name="datetimeT" expr="eval: __datetime__" />
+		<field name="$product_id" expr="eval: product_id"/>
+		<field name="product" expr="eval: product"/>
 	</action-record>
 
 	<action-record

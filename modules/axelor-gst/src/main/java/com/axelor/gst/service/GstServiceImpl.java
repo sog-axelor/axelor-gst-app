@@ -6,6 +6,8 @@ import java.math.RoundingMode;
 import com.axelor.common.ObjectUtils;
 import com.axelor.gst.db.Invoice;
 import com.axelor.gst.db.InvoiceLine;
+import com.axelor.gst.db.Product;
+import com.axelor.gst.db.ProductCategory;
 import com.axelor.gst.db.Sequence;
 import com.axelor.gst.db.repo.ContactRepository;
 import com.axelor.gst.db.repo.InvoiceRepository;
@@ -121,8 +123,24 @@ public class GstServiceImpl implements GstService {
 			return invoiceline;
 
 	}
-	
-	
+
+
+	public InvoiceLine selectProductById(InvoiceLine invoiceline) {
+		System.err.println("Product is : "+invoiceline.getProduct());
+		return invoiceline;
+		
+	}
+
 
 
 }
+
+
+
+
+
+
+
+
+
+
