@@ -29,7 +29,7 @@
 
 	<form model="com.axelor.gst.db.Invoice" title="Invoice"
 		name="form-invoice"
-		onNew="action-record-invoice,action-default-company" onSave="action-get-sequence-on-refernce" >
+		onNew="action-record-invoice,action-default-company,action-default-product-by-productid" onSave="action-get-sequence-on-refernce" >
 		<toolbar>
 			<button name="btnPrint" title="Print" showTitle="false"
 				showIf="id" onClick="action-report-invoice" icon="fa-print" />
@@ -46,7 +46,7 @@
 			<field name="invoiceAddress" />
 			<field name="partyContact" />
 			<field name="shippingAddress" showIf="!useInvoiceAsPerShipping" />
-			<field name="$product_id"/>
+			<field name="$product_id" readonly="true"/>
 		</panel>
 		<panel-related field="invoiceItems"
 			title="Invoice Items" colSpan="12"
@@ -97,7 +97,10 @@
 		    </div>
     ]]></template>
 	</kanban>
-
+	
+	<action-method name="action-default-product-by-productid">
+			<call class="com.axelor.gst.web.ProductController" method="ProductSelect"/>
+	</action-method>
 
 	<action-attrs name="action-btn-draft-status">
 		<attribute name="value" for="status" expr="draft" />
@@ -133,7 +136,8 @@
 		<call class="com.axelor.gst.web.GstController"
 			method="grossAmount" />
 	</action-method>
-
+	
+	
 
 
 	<action-record name="action-default-company"
@@ -168,5 +172,6 @@
 	<action-method name="action-get-sequence-on-refernce">
   		<call class="com.axelor.gst.web.SequenceController" method="getSequence"/>
 	</action-method>
+	
 
 </object-views>
