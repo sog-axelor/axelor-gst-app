@@ -11,4 +11,12 @@ public class ProductServiceImpl implements productService{
 		return invoiceLine;
 	}
 
+	@Override
+	public InvoiceLine selectProduct(int id) {
+		
+		
+		
+		return null;
+	}
+
 }

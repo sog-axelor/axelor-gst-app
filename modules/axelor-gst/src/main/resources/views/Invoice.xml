@@ -29,7 +29,8 @@
 
 	<form model="com.axelor.gst.db.Invoice" title="Invoice"
 		name="form-invoice"
-		onNew="action-record-invoice,action-default-company,action-default-product-by-productid" onSave="action-get-sequence-on-refernce" >
+		onNew="action-record-invoice,action-default-company"
+		onSave="action-get-sequence-on-refernce">
 		<toolbar>
 			<button name="btnPrint" title="Print" showTitle="false"
 				showIf="id" onClick="action-report-invoice" icon="fa-print" />
@@ -46,11 +47,11 @@
 			<field name="invoiceAddress" />
 			<field name="partyContact" />
 			<field name="shippingAddress" showIf="!useInvoiceAsPerShipping" />
-			<field name="$product_id" readonly="true"/>
+			<field name="$product_id" readonly="true" />
 		</panel>
 		<panel-related field="invoiceItems"
 			title="Invoice Items" colSpan="12"
-			onChange="action-invoice-gross-total-method"/>
+			onChange="action-invoice-gross-total-method" />
 
 		<panel title="Summary">
 			<field name="useInvoiceAsPerShipping" />
@@ -69,8 +70,8 @@
 				name="btnValidate" title="Validate" hideIf="status == 'validate'" />
 			<button onClick="save,action-btn-paid-status" name="btnPaid"
 				title="Paid" hideIf="status == 'paid'" />
-			<button onClick="save,action-btn-cancel-status" name="btnCancel"
-				title="Cancel" hideIf="status == 'cancelled'" />
+			<button onClick="save,action-btn-cancel-status"
+				name="btnCancel" title="Cancel" hideIf="status == 'cancelled'" />
 		</panel>
 	</form>
 
@@ -97,10 +98,6 @@
 		    </div>
     ]]></template>
 	</kanban>
-	
-	<action-method name="action-default-product-by-productid">
-			<call class="com.axelor.gst.web.ProductController" method="ProductSelect"/>
-	</action-method>
 
 	<action-attrs name="action-btn-draft-status">
 		<attribute name="value" for="status" expr="draft" />
@@ -121,8 +118,8 @@
 	<action-record name="action-record-invoice"
 		model="com.axelor.gst.db.Invoice">
 		<field name="datetimeT" expr="eval: __datetime__" />
-		<field name="$product_id" expr="eval: product_id"/>
-		<field name="product" expr="eval: product"/>
+		<field name="$product_id" expr="eval: productId" />
+		<!-- field name="product" expr="eval: product" /-->
 	</action-record>
 
 	<action-record
@@ -136,8 +133,8 @@
 		<call class="com.axelor.gst.web.GstController"
 			method="grossAmount" />
 	</action-method>
-	
-	
+
+
 
 
 	<action-record name="action-default-company"
@@ -168,10 +165,11 @@
 		eventStart="datetimeT" eventLength="8" colorBy="status">
 		<field name="company" />
 	</calendar>
-	
+
 	<action-method name="action-get-sequence-on-refernce">
-  		<call class="com.axelor.gst.web.SequenceController" method="getSequence"/>
+		<call class="com.axelor.gst.web.SequenceController"
+			method="getSequence" />
 	</action-method>
-	
+
 
 </object-views>

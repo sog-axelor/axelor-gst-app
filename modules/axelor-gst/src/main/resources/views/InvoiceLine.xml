@@ -22,7 +22,7 @@
 	</grid>
 
 	<form model="com.axelor.gst.db.InvoiceLine" title="InvoiceLine"
-		name="form-invoiceLine">
+		name="form-invoiceLine" >
 		<panel title="Overview">
 			<panel colSpan="12">
 				<field name="product" onChange="action-change-hsbn"
@@ -72,7 +72,6 @@
 		<call class="com.axelor.gst.web.GstController"
 			method="igstValidation" />
 	</action-method>
-
 
 
 </object-views>
