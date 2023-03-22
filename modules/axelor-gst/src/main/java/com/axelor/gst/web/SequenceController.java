@@ -41,18 +41,24 @@ public class SequenceController {
 			response.setValue("reference", party.getReference());
 			System.err.println("Reference Number is : " + party.getReference());
 		}
-		
+	}
+	
+	
+	public void getInvoiceSeq(ActionRequest request, ActionResponse response) throws Exception  {
+		Context context = request.getContext();
 		// FOR INVOICE SEQUENCE
-		Invoice invoice = context.asType(Invoice.class);
-		if (invoice.getReference() == null) {
-			try {
-				invoice.setReference(ssi.getSequence(Invoice.class.getName()));
-			} catch (Exception ex) {
-				response.setError("Sequence Does not exist");
-			}
-			response.setValue("reference", invoice.getReference());
-			System.err.println("Reference Number is : " + invoice.getReference());
-		}
-
+				Invoice invoice = context.asType(Invoice.class);
+				if (invoice.getReference() == null) {
+					try {
+						invoice.setReference(ssi.getSequence(Invoice.class.getName()));
+					} catch (Exception ex) {
+						response.setError("Sequence Does not exist");
+					}
+					response.setValue("reference", invoice.getReference());
+					System.err.println("Reference Number is : " + invoice.getReference());
+				}
 	}
 }
+
+
+

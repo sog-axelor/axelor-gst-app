@@ -76,7 +76,6 @@
 		title="New Invoice" model="com.axelor.gst.db.Invoice">
 		<view type="form" name="form-invoice" />
 		<context name="product_id" expr="eval: _ids"/>
-		<!-- <context name="productId" expr="eval: __ids__.join(',')"/> -->
 	</action-view>	
 	
 	

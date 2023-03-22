@@ -47,7 +47,6 @@
 			<field name="invoiceAddress" />
 			<field name="partyContact" />
 			<field name="shippingAddress" showIf="!useInvoiceAsPerShipping" />
-			<field name="$product_id" readonly="true" />
 		</panel>
 		<panel-related field="invoiceItems"
 			title="Invoice Items" colSpan="12"
@@ -118,8 +117,7 @@
 	<action-record name="action-record-invoice"
 		model="com.axelor.gst.db.Invoice">
 		<field name="datetimeT" expr="eval: __datetime__" />
-		<field name="$product_id" expr="eval: productId" />
-		<!-- field name="product" expr="eval: product" /-->
+		<field name="invoiceItems" expr="eval: invoiceItems" />
 	</action-record>
 
 	<action-record
@@ -168,7 +166,7 @@
 
 	<action-method name="action-get-sequence-on-refernce">
 		<call class="com.axelor.gst.web.SequenceController"
-			method="getSequence" />
+			method="getInvoiceSeq" />
 	</action-method>
 
 
