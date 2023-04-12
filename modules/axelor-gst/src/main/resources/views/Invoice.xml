@@ -30,13 +30,13 @@
 	<form model="com.axelor.gst.db.Invoice" title="Invoice"
 		name="form-invoice"
 		onNew="action-record-invoice,action-default-company"
-		onSave="action-get-sequence-on-refernce">
+		onSave="com.axelor.gst.web.SequenceController:getSequence">
 		<toolbar>
 			<button name="btnPrint" title="Print" showTitle="false"
 				showIf="id" onClick="action-report-invoice" icon="fa-print" />
 		</toolbar>
 		<panel title="Overview">
-			<field name="status" widget="NavSelect" showTitle="false	" />
+			<field name="status" widget="NavSelect" showTitle="false" />
 			<field name="company" form-view="form-company"
 				grid-view="grid-company" />
 			<field name="reference" />
@@ -50,9 +50,9 @@
 		</panel>
 		<panel-related field="invoiceItems"
 			title="Invoice Items" colSpan="12"
-			onChange="action-invoice-gross-total-method" />
+			onChange="action-invoice-gross-total-method" hideIf="invoiceAddress == null"/>
 
-		<panel title="Summary">
+		<panel title="Summary" hideIf="invoiceAddress == null">
 			<field name="useInvoiceAsPerShipping" />
 			<field name="netAmount" />
 			<field name="netIgst" />
@@ -63,13 +63,13 @@
 
 
 		<panel name="statusPanel" sidebar="true">
-			<button onClick="save,action-btn-draft-status" name="btnDraft"
+			<button onClick="save,action-group-btnValdation" name="btnDraft"
 				title="Draft" hideIf="status == 'draft'" />
-			<button onClick="save,action-btn-validate-status"
+			<button onClick="save,action-group-btnValdation"
 				name="btnValidate" title="Validate" hideIf="status == 'validate'" />
-			<button onClick="save,action-btn-paid-status" name="btnPaid"
+			<button onClick="save,action-group-btnValdation" name="btnPaid"
 				title="Paid" hideIf="status == 'paid'" />
-			<button onClick="save,action-btn-cancel-status"
+			<button onClick="save,action-group-btnValdation"
 				name="btnCancel" title="Cancel" hideIf="status == 'cancelled'" />
 		</panel>
 	</form>
@@ -97,6 +97,13 @@
 		    </div>
     ]]></template>
 	</kanban>
+	
+	<action-group name="action-group-btnValdation">
+		<action name="action-btn-draft-status"/>
+		<action name="action-btn-validate-status"/>
+		<action name="action-btn-paid-status"/>
+		<action name="action-btn-cancel-status"/>
+	</action-group>
 
 	<action-attrs name="action-btn-draft-status">
 		<attribute name="value" for="status" expr="draft" />
@@ -117,7 +124,7 @@
 	<action-record name="action-record-invoice"
 		model="com.axelor.gst.db.Invoice">
 		<field name="datetimeT" expr="eval: __datetime__" />
-		<field name="invoiceItems" expr="eval: invoiceItems" />
+		<field name="invoiceItems" expr="eval: invoiceItems" />				<!-- Comes from productController  -->
 	</action-record>
 
 	<action-record
@@ -164,10 +171,11 @@
 		<field name="company" />
 	</calendar>
 
-	<action-method name="action-get-sequence-on-refernce">
-		<call class="com.axelor.gst.web.SequenceController"
-			method="getInvoiceSeq" />
+	
+	
+	<action-method name="action-get-invoice-reference" model="com.axelor.gst.db.Invoice">
+		<call class="com.axelor.gst.web.SequenceController" method="getSequence" />
 	</action-method>
-
-
+	
+	
 </object-views>

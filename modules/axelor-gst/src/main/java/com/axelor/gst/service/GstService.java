@@ -1,5 +1,6 @@
 package com.axelor.gst.service;
 
+import com.axelor.gst.db.Invoice;
 import com.axelor.gst.db.InvoiceLine;
 import com.axelor.gst.db.Product;
 import com.axelor.gst.db.ProductCategory;
@@ -7,7 +8,7 @@ import com.axelor.gst.db.Sequence;
 
 public interface GstService {
 		
-	String hello();
+	String hello(Invoice invoice);
 	String getNext();
 		
 	public InvoiceLine calculateNetAmount(InvoiceLine invoiceline);

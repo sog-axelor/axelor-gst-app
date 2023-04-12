@@ -1,6 +1,7 @@
 package com.axelor.gst.web;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.axelor.db.JpaSupport;
@@ -48,7 +49,13 @@ public class ProductController extends JpaSupport {
 			invoicelinelist.add(invoiceline);
 
 		}
-
+		
+//			for (Product p : productorderlist) {
+//				InvoiceLine invoiceline = Beans.get(InvoiceLine.class);
+//				invoiceline.setProduct(p);
+//				invoiceline.setGstRate(p.getGstRate());
+//			}
+		
 		System.err.println(invoicelinelist);
 
 		ActionViewBuilder actionViewBuilder = ActionView.define("Invoice").model(Invoice.class.getName())

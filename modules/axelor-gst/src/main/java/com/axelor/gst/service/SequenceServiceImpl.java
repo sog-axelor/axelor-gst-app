@@ -1,6 +1,7 @@
 package com.axelor.gst.service;
 
 import org.apache.commons.lang3.StringUtils;
+import com.google.inject.persist.Transactional;
 
 import com.axelor.gst.db.Sequence;
 import com.axelor.gst.db.repo.SequenceRepository;
@@ -9,68 +10,61 @@ import com.axelor.inject.Beans;
 public class SequenceServiceImpl implements SequenceService {
 
 	@Override
-	public Sequence setNextNumber(Sequence sequence) {
-		String padnext = "";
-		String nextSeqeunce = "";
+    public Sequence setNextNumber(Sequence sequence) {
 
-		if (sequence.getPadding() != null) {
-			padnext = StringUtils.leftPad("0".toString(), sequence.getPadding(), "0");
-		}
-		nextSeqeunce = calculateNextSequence(sequence, padnext);
-		sequence.setNextNumber(nextSeqeunce);
+        String padnext = "";
+        String nextSequence = "";
 
-		return sequence;
-	}
+        if (sequence.getPadding() != null) {
+            padnext = StringUtils.leftPad("0".toString(), sequence.getPadding(), "0");
+        }
+        nextSequence = calculateNextSequence(sequence, padnext);
+        sequence.setNextNumber(nextSequence);
+        return sequence;
+    }
 
-	@Override
-	public String calculateNextSequence(Sequence seq, String padnext) {
-		String nextSeqeunce = "";
+	 public String calculateNextSequence(Sequence seq, String padnext) {
 
-		if (seq.getPrefix() != null)
-			nextSeqeunce = seq.getPrefix() + padnext;
-		if (seq.getSuffix() != null)
-			nextSeqeunce += seq.getSuffix();
-		return nextSeqeunce;
-	}
+	        String nextSequence = "";
 
-	@Override
-	public String getSequence(String modelName) throws Exception {
+	        if (seq.getPrefix() != null)
+	            nextSequence = seq.getPrefix() + padnext;
+	        if (seq.getSuffix() != null)
+	            nextSequence += seq.getSuffix();
+	        return nextSequence;
+	    }
 
-		Sequence sequence = Beans.get(SequenceRepository.class).all().filter("self.model.fullName = ?", modelName)
-				.fetchOne();
-		String nextSequence = "";
-		int l;
+	  	@Override
+	    @Transactional
+	    public String getSequence(String modelName) throws Exception {
+	        Sequence seq = Beans.get(SequenceRepository.class).all().filter("self.model.name = ?", modelName).fetchOne();
 
-		if (sequence == null) {
-			throw new Exception("NO sequence is defined");
-		}
+	        if (seq == null) {
+	            throw new Exception("No sequence defined");
+	        }
+	        String nextSequence = "";
+	        int l;
 
-		if (sequence != null) {
-			String padding = "";
-			if (sequence.getSuffix() != null)
-				l = sequence.getNextNumber().length() - sequence.getSuffix().length();
-			else
-				l = sequence.getNextNumber().length();
-
-			if (sequence.getPrefix() != null) {
-				for (int i = sequence.getPrefix().length(); i < l; i++) {
-					padding += sequence.getNextNumber().charAt(i);
-				}
-			}
-
-			Long nextVal = Long.parseLong(padding);
-			nextVal++;
-			String padNext = StringUtils.leftPad(nextVal.toString(), sequence.getPadding(), "0");
-			nextSequence = calculateNextSequence(sequence, padNext);
-
-			if (padNext.length() != sequence.getPadding()) {
-				sequence.setPadding(padNext.length());
-				sequence.setNextNumber(nextSequence);
-				Beans.get(SequenceRepository.class).save(sequence);
-			}
-		}
-		System.err.println("Next Sequence is  " + nextSequence);
-		return nextSequence;
-	}
-
+	        if (seq != null) {
+	            String padding = "";
+	            if (seq.getSuffix() != null)
+	                l = seq.getNextNumber().length() - seq.getSuffix().length();
+	            else
+	                l = seq.getNextNumber().length();
+	            if (seq.getPrefix() != null) {
+	                for (int i = seq.getPrefix().length(); i < l; i++) {
+	                    padding += seq.getNextNumber().charAt(i);
+	                }
+	            }
+	            Long nextVal = Long.parseLong(padding);
+	            nextVal++;
+	            String padnext = StringUtils.leftPad(nextVal.toString(), seq.getPadding(), "0");
+	            nextSequence = calculateNextSequence(seq, padnext);
+	            if (padnext.length() != seq.getPadding())
+	                seq.setPadding(padnext.length());
+	            	seq.setNextNumber(nextSequence);
+	            	Beans.get(SequenceRepository.class).save(seq);
+	        	}
+	        	return nextSequence;
+	    }
 }

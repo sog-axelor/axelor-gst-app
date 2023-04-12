@@ -22,10 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class GstServiceImpl implements GstService {
 	@Inject SequenceRepository sequenceRepository;
-	@Override
-	public String hello() {
-		return "Hello World";
-	}
+
 
 	private int nextNumber;
 	private int padding;
@@ -53,12 +50,12 @@ public class GstServiceImpl implements GstService {
 		BigDecimal cgst = BigDecimal.ZERO;
 		BigDecimal igst = BigDecimal.ZERO;
 		BigDecimal sgst1 = BigDecimal.ZERO;
+		
 		if (ObjectUtils.isEmpty(invoice.getInvoiceItems())) {
 			return invoice;
 		}
 
 		sgst1 = invoice.getInvoiceItems().stream().map(InvoiceLine::getSgst).reduce(BigDecimal.ZERO,BigDecimal::add);
-//		Beans.get(ContactRepository.class).all().filter("self.type =?1","Primary").fetch()
 		
 		cgst = invoice.getInvoiceItems().stream().map(InvoiceLine::getCgst).reduce(BigDecimal.ZERO,BigDecimal::add);
 		igst = invoice.getInvoiceItems().stream().map(InvoiceLine::getIgst).reduce(BigDecimal.ZERO,BigDecimal::add);
@@ -130,6 +127,12 @@ public class GstServiceImpl implements GstService {
 		
 	}
 
+	@Override
+	public String hello(Invoice invoice) {
+		return String.format("Welcome '%s!'", invoice.getParty());
+	}
+	
+	
 
 
 }

@@ -27,13 +27,8 @@ public class GstController extends JpaSupport {
 	@Inject
 	private GstServiceImpl gsi;
 
-	public void say(ActionRequest request, ActionResponse response) {
-
-		System.err.println(gsi.hello());
-	}
-
 	public void sequence(ActionRequest request, ActionResponse response) {
-		
+
 		Context context = request.getContext();
 		Sequence sequence = context.asType(Sequence.class);
 		if (sequence.getId() != null) {
@@ -54,9 +49,9 @@ public class GstController extends JpaSupport {
 		response.setValue("netCgst", invoice.getNetCgst());
 		response.setValue("netSgst", invoice.getNetSgst());
 		response.setValue("netIgst", invoice.getNetIgst());
-		
-		System.err.println("netIgst Amount is : " +invoice.getNetIgst());
-		System.err.println("netsgst Amount is : " +invoice.getNetSgst());
+
+		System.err.println("netIgst Amount is : " + invoice.getNetIgst());
+		System.err.println("netsgst Amount is : " + invoice.getNetSgst());
 		System.err.println("netcGst Amount is : " + invoice.getNetCgst());
 		System.err.println("Gross Amount is : " + invoice.getGrossAmount());
 		System.err.println("netAmount is : " + invoice.getNetAmount());
@@ -67,54 +62,47 @@ public class GstController extends JpaSupport {
 		invoiceline = gsi.calculateGrossAmount(invoiceline);
 		response.setValue("grossAmount", invoiceline.getGrossAmount());
 	}
-	
+
 	public void igstValidation(ActionRequest request, ActionResponse response) {
 		Context context = request.getContext();
-	
+
 		InvoiceLine invoiceline = context.asType(InvoiceLine.class);
-		Invoice invoice =request.getContext().getParentContext().asType(Invoice.class);
-		
-		
-		if(invoice.getCompany() != null && invoice.getCompany().getAddress() != null
-				&& invoice.getCompany().getAddress().getState() != null) {
+		Invoice invoice = request.getContext().getParentContext().asType(Invoice.class);
+
+	
 			
-			if (invoice.getCompany().getAddress().getState() != invoice.getInvoiceAddress().getState()) {
-				invoiceline = gsi.calculateIgst(invoiceline);
-				response.setValue("igst", invoiceline.getIgst());
-			}else {
-				invoiceline = gsi.calculateSgst(invoiceline);
-				response.setValue("sgst", invoiceline.getSgst());
-		
-				invoiceline = gsi.calculateCgst(invoiceline);
-				response.setValue("cgst", invoiceline.getCgst());
+			if (invoice.getCompany() != null && invoice.getCompany().getAddress() != null
+					&& invoice.getCompany().getAddress().getState() != null) {
+
+				if (invoice.getCompany().getAddress().getState() != invoice.getInvoiceAddress().getState()) {
+					invoiceline = gsi.calculateIgst(invoiceline);
+					response.setValue("igst", invoiceline.getIgst());
+				} else {
+					invoiceline = gsi.calculateSgst(invoiceline);
+					response.setValue("sgst", invoiceline.getSgst());
+
+					invoiceline = gsi.calculateCgst(invoiceline);
+					response.setValue("cgst", invoiceline.getCgst());
 				}
-			
-			
-			}else if (invoice.getCompany() == null && invoice.getCompany().getAddress() == null
-				&& invoice.getCompany().getAddress().getState() == null) {
-				response.setAlert("Invoice Address need to be fill");
+
 			}
+
+		
+
 		invoiceline = gsi.calculateGrossAmount(invoiceline);
 		response.setValue("grossAmount", invoiceline.getGrossAmount());
-		
-		
+
 		invoiceline = gsi.calculateNetAmount(invoiceline);
 		response.setValue("netAmount", invoiceline.getNetAmount());
-		}
-	
-		
-	
-	
-	
-	
 	}
 
+	public void about(ActionRequest request, ActionResponse response) {
+		Context context = request.getContext();
+		InvoiceLine invoiceline = context.getParentContext().asType(InvoiceLine.class);
+		Invoice invoice = context.asType(Invoice.class);
 
-	
+		System.err.println(invoiceline);
+		System.err.println(invoice);
+	}
 
-
-
-
-
-
-
+}

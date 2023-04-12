@@ -6,7 +6,7 @@
 
 			<dashboard name="welcome.dashboard" title="Welcome!">
 				<dashlet action="chart:unpaid.invoice.per.customer" />
-				<dashlet action="chart:paid.invoice.per.category.per.product" />
+				<dashlet action="chart:paid.invoice.per.product" />
 				<dashlet action="chart:invoice.per.status.invoice.line" />
 				<dashlet action="chart:invoice.per.status.amount.bar" />
 				<dashlet action="chart:invoice.custom.pie.state" />
@@ -45,33 +45,32 @@
 			  
 			
 			  			<!--paid invoice per category per product  -->
-			<chart name="paid.invoice.per.category.per.product" title="paid invoice per category per product">
-			<search-fields>
+			<chart name="paid.invoice.per.product" title="Paid invoice per category per product" onInit="action-invoice-record-chart-set-date">
+		<search-fields>
 			<field name="fromDate" type="date" title="From Date" />
 			<field name="toDate" type="date" title="To Date" />
-			</search-fields>
-			    <dataset type="jpql">
-				<![CDATA[	  
+		</search-fields>
+		<dataset type="jpql">
+  		 <![CDATA[	  
 		    SELECT
  				COUNT(self.id) as invoice,
- 				category.name	as cat,
+ 				_category.name	as cat,
  				   pro.name	
 		    FROM
 		    	Invoice self
 		    LEFT JOIN InvoiceLine as line ON line.invoice=self.id
 		    LEFT JOIN Product as pro ON line.product=pro.id
-		    LEFT JOIN ProductCategory as category ON pro.category=category.id
+		    LEFT JOIN ProductCategory as _category ON pro.category=_category.id
 		    WHERE	
 		    	self.status = 'paid'
-		    	AND self.datetimeT BETWEEN :fromDate AND  :toDate
 		    GROUP BY
-		    	category.name,pro.name	  
+		    	_category.name,pro.name	  
 		    ]]>
-		
-			    </dataset>
-			    <category key="cat"/>
-			    <series key="invoice" title="paid Invoice per category per product" type="bar"/>
-			  </chart>
+		    </dataset>
+		<category key="cat" />
+		<series key="invoice" type="bar" />
+	</chart>
+
 			  
 						
 		<chart name="invoice.per.status.invoice.line" title="Invoice per status (Invoice count line)">
